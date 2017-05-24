@@ -2,7 +2,12 @@ package com.dozydroid.ourconverter;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerTitleStrip;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,8 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    ViewPager viewPager;
+    PagerTitleStrip pagerTitleStrip;
+    TabsPagerAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +49,23 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+
+        adapter = new TabsPagerAdapter(fragmentManager);
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        viewPager.setAdapter(adapter);
+
+        BasicFragment fragment1 = new BasicFragment();
+        BasicFragment fragment2 = new BasicFragment();
+        BasicFragment fragment3 = new BasicFragment();
+        BasicFragment fragment4 = new BasicFragment();
+        adapter.addFragment(fragment1, "Basic");
+        adapter.addFragment(fragment2, "Living");
+        adapter.addFragment(fragment3, "Science");
+        adapter.addFragment(fragment4, "Misc.");
+
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -98,3 +127,31 @@ public class MainActivity extends AppCompatActivity
 }
 
 
+class TabsPagerAdapter extends FragmentPagerAdapter{
+    List<Fragment> fragmentList = new ArrayList<>();
+    List<String> titlesList = new ArrayList<>();
+
+    public TabsPagerAdapter(FragmentManager fm) {
+        super(fm);
+    }
+
+    @Override
+    public Fragment getItem(int position) {
+        return fragmentList.get(position);
+    }
+
+    @Override
+    public int getCount() {
+        return fragmentList.size();
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return titlesList.get(position);
+    }
+
+    public void addFragment(Fragment fragment, String fragmentTitle){
+        fragmentList.add(fragment);
+        titlesList.add(fragmentTitle);
+    }
+}
