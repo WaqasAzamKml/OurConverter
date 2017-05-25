@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <!-- Top Title Boxes-->
     <LinearLayout
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:text="Length"
                 android:gravity="center"
-                android:textColor="#d2d2d2" />
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:text="Area"
                 android:gravity="center"
-                android:textColor="#d2d2d2" />
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:text="Weight"
                 android:gravity="center"
-                android:textColor="#d2d2d2" />
+                android:textColor="#fff" />
         </LinearLayout>
 
         <LinearLayout
@@ -86,8 +86,12 @@
                 android:layout_height="wrap_content"
                 android:text="Volume"
                 android:gravity="center"
-                android:textColor="#d2d2d2" />
+                android:textColor="#fff" />
         </LinearLayout>
     </LinearLayout>
     <!-- Top Title Boxes-->
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragmentBasicContainer" />
 </LinearLayout>
