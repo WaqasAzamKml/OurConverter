@@ -10,10 +10,12 @@ import android.support.v4.view.PagerTitleStrip;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class MainActivity extends AppCompatActivity
     ViewPager viewPager;
     PagerTitleStrip pagerTitleStrip;
     TabsPagerAdapter adapter;
+    boolean isBasic = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,29 @@ public class MainActivity extends AppCompatActivity
         adapter = new TabsPagerAdapter(fragmentManager);
         viewPager = (ViewPager) findViewById(R.id.viewPager);
         viewPager.setAdapter(adapter);
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if(position>0){
+                    isBasic = false;
+                }else{
+                    isBasic = true;
+                }
+                invalidateOptionsMenu();
+//                onCreateOptionsMenu()
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         BasicFragment fragment1 = new BasicFragment();
         BasicFragment fragment2 = new BasicFragment();
@@ -81,7 +107,11 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        if(isBasic) {
+            getMenuInflater().inflate(R.menu.main, menu);
+        }else{
+            getMenuInflater().inflate(R.menu.custom_menu, menu);
+        }
         return true;
     }
 
@@ -95,6 +125,12 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id == R.id.action_favorites){
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
+            View dialogView = getLayoutInflater().inflate(R.layout.living_favourites_dialog, null);
+            dialogBuilder.setView(dialogView);
+            dialogBuilder.create();
+            dialogBuilder.show();
         }
 
         return super.onOptionsItemSelected(item);
