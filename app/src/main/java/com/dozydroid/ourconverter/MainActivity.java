@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
     PagerTitleStrip pagerTitleStrip;
     TabsPagerAdapter adapter;
     boolean isBasic = true;
+    int pos = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onPageSelected(int position) {
+                pos = position;
                 if(position>0){
                     isBasic = false;
                 }else{
@@ -83,7 +85,7 @@ public class MainActivity extends AppCompatActivity
         });
 
         BasicFragment fragment1 = new BasicFragment();
-        BasicFragment fragment2 = new BasicFragment();
+        LivingFragment fragment2 = new LivingFragment();
         BasicFragment fragment3 = new BasicFragment();
         BasicFragment fragment4 = new BasicFragment();
         adapter.addFragment(fragment1, "Basic");
@@ -127,7 +129,15 @@ public class MainActivity extends AppCompatActivity
             return true;
         }else if(id == R.id.action_favorites){
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MainActivity.this);
-            View dialogView = getLayoutInflater().inflate(R.layout.living_favourites_dialog, null);
+            View dialogView;
+            if(pos == 1){
+                dialogView = getLayoutInflater().inflate(R.layout.living_favourites_dialog, null);
+            }else if(pos==2){
+                dialogView = getLayoutInflater().inflate(R.layout.science_favourites_dialog, null);
+            }else{
+                //Todo: R.layout.misc_favourites_dialog
+                dialogView = getLayoutInflater().inflate(R.layout.living_favourites_dialog, null);
+            }
             dialogBuilder.setView(dialogView);
             dialogBuilder.create();
             dialogBuilder.show();
