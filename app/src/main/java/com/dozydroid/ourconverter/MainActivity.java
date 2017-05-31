@@ -16,6 +16,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +30,9 @@ public class MainActivity extends AppCompatActivity
     TabsPagerAdapter adapter;
     boolean isBasic = true;
     int pos = 0;
+    CheckBox chkCurrency, chkTemperature, chkTime, chkSpeed, chkShoesM, chkShoesW;
+    List<CheckBox> checked = new ArrayList<>();
+    List<CheckBox> livingCheckBoxes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +137,44 @@ public class MainActivity extends AppCompatActivity
             View dialogView;
             if(pos == 1){
                 dialogView = getLayoutInflater().inflate(R.layout.living_favourites_dialog, null);
+                chkCurrency = (CheckBox) dialogView.findViewById(R.id.chkCurrency);
+                chkTemperature = (CheckBox) dialogView.findViewById(R.id.chkTemperature);
+                chkTime = (CheckBox) dialogView.findViewById(R.id.chkTime);
+                chkSpeed = (CheckBox) dialogView.findViewById(R.id.chkSpeed);
+                chkShoesM = (CheckBox) dialogView.findViewById(R.id.chkShoesM);
+                chkShoesW = (CheckBox) dialogView.findViewById(R.id.chkShoesW);
+                livingCheckBoxes.add(chkCurrency);
+                livingCheckBoxes.add(chkTemperature);
+                livingCheckBoxes.add(chkTime);
+                livingCheckBoxes.add(chkSpeed);
+                livingCheckBoxes.add(chkShoesM);
+                livingCheckBoxes.add(chkShoesW);
+                for(final CheckBox chk: livingCheckBoxes){
+                    chk.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked)
+                                checked.add(chk);
+                            else
+                                checked.remove(chk);
+                            if(checked.size()==4){
+                                for(CheckBox chkIn: livingCheckBoxes){
+                                    if(!chkIn.isChecked())
+                                        chkIn.setEnabled(false);
+                                }
+                            }else{
+                                for(CheckBox chkIn: livingCheckBoxes){
+                                    chkIn.setEnabled(true);
+                                }
+                            }
+                        }
+                    });
+                }
+
+                chkCurrency.setChecked(true);
+                chkTemperature.setChecked(true);
+                chkTime.setChecked(true);
+                chkSpeed.setChecked(true);
             }else if(pos==2){
                 dialogView = getLayoutInflater().inflate(R.layout.science_favourites_dialog, null);
             }else{
